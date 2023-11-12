@@ -1,3 +1,4 @@
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Before;
@@ -24,8 +25,8 @@ public class CreateUserTest {
         check.deletedSuccessfully202(delete);
     }
 
-
     @Test
+    @DisplayName("Create user with valid user data")
     public void userCanCreated() {
         user = UserGenerator.getRandomUser();
 
@@ -37,6 +38,7 @@ public class CreateUserTest {
 
 
     @Test
+    @DisplayName("Failed user creation with existing user data")
     public void userCantCreatedWithExistingUser() {
         user = UserGenerator.getRandomUser();
         ValidatableResponse response = userClient.create(user);
