@@ -26,23 +26,23 @@ public class CreateUserTest {
 
 
     @Test
-    public void userCanBeCreatedTest() {
+    public void userCanCreated() {
         user = UserGenerator.getRandomUser();
 
         ValidatableResponse response = userClient.create(user);
-        check.createdSuccessfully200(response);
+        check.createdOrLoggedSuccessfully200(response);
 
         accessToken = response.extract().path("accessToken");
     }
 
 
     @Test
-    public void userCantBeCreatedWithExistingUserTest() {
+    public void userCantCreatedWithExistingUser() {
         user = UserGenerator.getRandomUser();
         ValidatableResponse response = userClient.create(user);
         accessToken = response.extract().path("accessToken");
 
         response = userClient.create(user);
-        check.notCreated403(response);
+        check.notCreatedExistingUser403(response);
     }
 }
