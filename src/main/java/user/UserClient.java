@@ -1,15 +1,13 @@
 package user;
 
+import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
-
-import static io.restassured.RestAssured.given;
-import static io.restassured.http.ContentType.JSON;
 
 public class UserClient extends Client {
 
-    private static final String REGISTER = "register";
-    private static final String LOGIN = "login";
-    private static final String USER = "user";
+    private static final String REGISTER = "/auth/register";
+    private static final String LOGIN = "/auth/login";
+    private static final String USER = "/auth/user";
 
     public ValidatableResponse create(User user) {
         return spec()
@@ -19,6 +17,7 @@ public class UserClient extends Client {
                 .then().log().all();
     }
 
+    @Step("Send DELETE request to /api/auth/user")
     public ValidatableResponse delete(String accessToken) {
         return spec()
                 .header("Authorization", accessToken)
@@ -26,6 +25,7 @@ public class UserClient extends Client {
                 .then().log().all();
     }
 
+    @Step("Send POST request to /api/auth/login to login")
     public ValidatableResponse login(Credentials creds) {
         return spec()
                 .body(creds)
@@ -34,6 +34,7 @@ public class UserClient extends Client {
                 .then().log().all();
     }
 
+    @Step("Send PATCH request to /api/auth/user to change user data with token")
     public ValidatableResponse changeUser(User user, String accessToken) {
         return spec()
                 .header("Authorization", accessToken)
@@ -43,6 +44,7 @@ public class UserClient extends Client {
                 .then().log().all();
     }
 
+    @Step("Send PATCH request to /api/auth/user to change user data without token")
     public ValidatableResponse changeUserWithoutToken (User user) {
         return spec()
                 .body(user)
